@@ -184,9 +184,33 @@ Util - Modul to support Perl using as scripting language for iMacros Web Automat
 
  Functions: 
  
- %err_codes = IMacrosGetErrCodes();
- loads error codes into a perl hash to decode errors returned from iMacros Win32::OLE ('imacros') 
+ Returns reference to hash with all error codes. 
+ Note: It's important to understand that is a reference to a hash (returning \%err_codes).
+ Therefore, syntax to deal with is like this:
 
+ 
+############ Example Script using IMacrosGetErrCodes ################ 
+# Requires Perl 5.20 or higher 
+# Verfified with Strawberry Perl 5, version 24, subversion 1 (v5.24.1) built for MSWin32-x86-multi-thread-64int
+#
+use strict;
+use warnings;
+use IMacros::Util qw/IMacrosGetErrCodes/;
+
+
+# load error codes into a perl hash to decode errors returned from iMacros Win32::OLE ('imacros') 
+my $err_codes = IMacrosGetErrCodes();
+
+my $current_err = "-101";
+print "\n\n\nSingle Reference to err_codes hash: \n";
+print "Error Code: ", $current_err, ", Description: ", $err_codes->{$current_err}, "\n\n\n";
+
+print "List entire hash with error codes and descriptions.... \n\n";
+foreach my $k ( keys $err_codes->%* ) {
+  print "Err_code: ", $k, " , Desc: ", $err_codes->{$k}, "\n";
+}
+
+######################################################################
 =head2 EXPORT
 
 None by default.
